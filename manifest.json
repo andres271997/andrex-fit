@@ -1,0 +1,8 @@
+{
+  "name": "ANDREX FIT",
+  "short_name": "ANDREX FIT",
+  "display": "standalone",
+  "start_url": "index.html",
+  "background_color": "#111111",
+  "theme_color": "#00d26a"
+}

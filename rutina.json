@@ -1,0 +1,20 @@
+{
+  "Lunes": {
+    "ejercicio": "Press banca",
+    "series": 4,
+    "reps": "6-8",
+    "descanso": "120"
+  },
+  "Martes": {
+    "ejercicio": "Dominadas/Jal\u00f3n",
+    "series": 4,
+    "reps": "6-10",
+    "descanso": "120"
+  },
+  "Mi\u00e9rcoles": {
+    "ejercicio": "Sentadilla",
+    "series": 4,
+    "reps": "6-8",
+    "descanso": "180"
+  }
+}
