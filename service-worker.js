@@ -1,4 +1,4 @@
-const CACHE = "andrex-v1";
+const CACHE = "andrex-v2";
 const ARCHIVOS = [
   "./",
   "./index.html",
