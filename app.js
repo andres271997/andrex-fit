@@ -22,6 +22,20 @@ fetch('rutina.json')
     console.error(err);
   });
 
+// -------- BOTÓN REINICIAR APP --------
+const btnReiniciar = document.getElementById("btnReiniciarApp");
+if (btnReiniciar) {
+  btnReiniciar.addEventListener("click", () => {
+    const seguro = confirm("¿Seguro que quieres borrar TODO el progreso guardado? Esta acción no se puede deshacer.");
+    if (!seguro) return;
+    Object.keys(localStorage).forEach(k => {
+      if (k.startsWith("andrex_")) localStorage.removeItem(k);
+    });
+    alert("✅ Progreso borrado. ¡Listo para empezar de nuevo!");
+    pintarDias();
+  });
+}
+
 // -------- PANTALLA PRINCIPAL --------
 function pintarDias() {
   box.innerHTML = "";
@@ -65,23 +79,33 @@ function abrirDia(dia) {
     card.className = "card ejercicio";
 
     let html = `<b>${ej.ejercicio}</b><br>
-      <span class="meta">${ej.series} series · ${ej.reps} reps · ${ej.descanso}s</span><br><br>`;
+      <span class="meta">${ej.series} series · ${ej.reps} reps${ej.descanso > 0 ? " · " + ej.descanso + "s" : ""}</span>`;
+    if (ej.notas) html += `<br><span class="nota">💡 ${ej.notas}</span>`;
+    html += `<br><br>`;
 
     for (let s = 0; s < ej.series; s++) {
       const key = `e${i}_s${s}`;
       const marcado = guardado[key] ? "checked" : "";
+      const labelSerie = ej.series === 1 ? "Hecho" : `Serie ${s + 1}`;
       html += `<label class="serie">
         <input type="checkbox" data-key="${key}" ${marcado}>
-        Serie ${s + 1}
+        ${labelSerie}
       </label>`;
     }
 
-    html += `<button class="btn-descanso" data-seg="${ej.descanso}">⏱ DESCANSAR ${ej.descanso}s</button>`;
+    // Solo mostrar botón cronómetro si hay descanso > 0
+    if (ej.descanso > 0) {
+      html += `<div class="fila-descanso">
+        <button class="btn-descanso" data-seg="${ej.descanso}">⏱ DESCANSAR ${ej.descanso}s</button>
+        <button class="btn-reset-descanso" data-seg="${ej.descanso}">🔄</button>
+      </div>`;
+    }
 
     card.innerHTML = html;
     detalle.appendChild(card);
   });
 
+  // Guardar progreso
   detalle.querySelectorAll('input[type="checkbox"]').forEach(chk => {
     chk.addEventListener("change", () => {
       guardado[chk.dataset.key] = chk.checked;
@@ -90,20 +114,45 @@ function abrirDia(dia) {
     });
   });
 
+  // Botones de descanso
   detalle.querySelectorAll(".btn-descanso").forEach(btn => {
-    btn.addEventListener("click", () => iniciarDescanso(btn, parseInt(btn.dataset.seg)));
+    btn.addEventListener("click", () => toggleDescanso(btn, parseInt(btn.dataset.seg)));
+  });
+
+  // Botones de reset del cronómetro
+  detalle.querySelectorAll(".btn-reset-descanso").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const btnDescanso = btn.parentElement.querySelector(".btn-descanso");
+      resetDescanso(btnDescanso, parseInt(btn.dataset.seg));
+    });
   });
 }
 
-// -------- TEMPORIZADOR DE DESCANSO --------
+// -------- TEMPORIZADOR DE DESCANSO (CORREGIDO) --------
 let timerInterval = null;
-function iniciarDescanso(btn, segundos) {
-  if (timerInterval) clearInterval(timerInterval);
+let timerActivo = null; // referencia al botón que está contando
 
-  detalle.querySelectorAll(".btn-descanso").forEach(b => {
-    if (b !== btn) b.textContent = `⏱ DESCANSAR ${b.dataset.seg}s`;
-  });
+function toggleDescanso(btn, segundos) {
+  // Si este botón ya está contando, lo pausamos
+  if (timerActivo === btn && timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+    timerActivo = null;
+    btn.textContent = `⏱ DESCANSAR ${segundos}s`;
+    return;
+  }
 
+  // Si hay otro cronómetro corriendo, lo reseteamos
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+    if (timerActivo) {
+      timerActivo.textContent = `⏱ DESCANSAR ${timerActivo.dataset.seg}s`;
+    }
+  }
+
+  // Iniciar el nuevo
+  timerActivo = btn;
   let restante = segundos;
   btn.textContent = `⏱ ${restante}s — toca para parar`;
 
@@ -112,19 +161,22 @@ function iniciarDescanso(btn, segundos) {
     if (restante <= 0) {
       clearInterval(timerInterval);
       timerInterval = null;
+      timerActivo = null;
       btn.textContent = `✅ ¡LISTO! DESCANSAR ${segundos}s`;
       if (navigator.vibrate) navigator.vibrate([300, 200, 300, 200, 300]);
+      // El botón sigue funcionando: al tocarlo reinicia
       return;
     }
     btn.textContent = `⏱ ${restante}s — toca para parar`;
   }, 1000);
+}
 
-  btn.onclick = () => {
-    if (timerInterval) {
-      clearInterval(timerInterval);
-      timerInterval = null;
-      btn.textContent = `⏱ DESCANSAR ${segundos}s`;
-      btn.onclick = () => iniciarDescanso(btn, segundos);
-    }
-  };
+function resetDescanso(btn, segundos) {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+    timerActivo = null;
+  }
+  btn.textContent = `⏱ DESCANSAR ${segundos}s`;
+  if (navigator.vibrate) navigator.vibrate(20);
 }
