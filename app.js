@@ -1,5 +1,6 @@
 const box = document.getElementById("days");
 const detalle = document.getElementById("detalle");
+const perfil = document.getElementById("perfil");
 const subtitulo = document.getElementById("subtitulo");
 const titulo = document.querySelector("h1");
 
@@ -46,10 +47,81 @@ if (btnReiniciar) {
   });
 }
 
+// -------- BOTÓN PERFIL --------
+const btnPerfil = document.getElementById("btnPerfil");
+if (btnPerfil) {
+  btnPerfil.addEventListener("click", abrirPerfil);
+}
+
+// -------- PERFIL DEL USUARIO --------
+function obtenerPerfil() {
+  return JSON.parse(localStorage.getItem("andrex_perfil") || "{}");
+}
+
+function guardarPerfil(perfil) {
+  localStorage.setItem("andrex_perfil", JSON.stringify(perfil));
+}
+
+function abrirPerfil() {
+  box.classList.add("oculto");
+  detalle.classList.add("oculto");
+  subtitulo.classList.add("oculto");
+  perfil.classList.remove("oculto");
+  perfil.innerHTML = "";
+
+  const p = obtenerPerfil();
+
+  perfil.innerHTML = `
+    <h1 style="margin-top:20px;">👤 MI PERFIL</h1>
+    <div class="card">
+      <label class="campo-perfil">
+        <span>Nombre</span>
+        <input type="text" id="perfilNombre" placeholder="Tu nombre" 
+               value="${p.nombre || ""}">
+      </label>
+      <label class="campo-perfil">
+        <span>Edad</span>
+        <input type="number" id="perfilEdad" placeholder="años" 
+               value="${p.edad || ""}" inputmode="numeric">
+      </label>
+      <label class="campo-perfil">
+        <span>Estatura</span>
+        <input type="number" id="perfilEstatura" placeholder="cm" 
+               value="${p.estatura || ""}" inputmode="numeric">
+      </label>
+      <label class="campo-perfil">
+        <span>Peso actual</span>
+        <input type="number" id="perfilPeso" placeholder="kg" 
+               value="${p.peso || ""}" inputmode="decimal">
+      </label>
+    </div>
+    <button id="btnGuardarPerfil" style="background:#00d26a;color:#000;">
+      💾 GUARDAR
+    </button>
+    <button id="btnVolverPerfil" class="back" style="margin-top:10px;">
+      ← VOLVER
+    </button>
+  `;
+
+  document.getElementById("btnGuardarPerfil").onclick = () => {
+    const nuevoPerfil = {
+      nombre: document.getElementById("perfilNombre").value.trim(),
+      edad: document.getElementById("perfilEdad").value.trim(),
+      estatura: document.getElementById("perfilEstatura").value.trim(),
+      peso: document.getElementById("perfilPeso").value.trim()
+    };
+    guardarPerfil(nuevoPerfil);
+    alert("✅ Perfil guardado correctamente.");
+  };
+
+  document.getElementById("btnVolverPerfil").onclick = pintarDias;
+}
+
 // -------- PANTALLA PRINCIPAL --------
 function pintarDias() {
   box.innerHTML = "";
   detalle.classList.add("oculto");
+  perfil.classList.add("oculto");
   box.classList.remove("oculto");
   subtitulo.classList.remove("oculto");
   titulo.textContent = "💪 ANDREX FIT";
@@ -103,6 +175,7 @@ function abrirDia(dia) {
   const info = rutina[dia];
   box.classList.add("oculto");
   subtitulo.classList.add("oculto");
+  perfil.classList.add("oculto");
   titulo.textContent = dia + " · " + info.nombre;
   detalle.classList.remove("oculto");
   detalle.innerHTML = "";
@@ -121,7 +194,6 @@ function abrirDia(dia) {
     card.className = "card ejercicio";
     card.dataset.ejercicio = ej.ejercicio;
 
-    // Último peso guardado
     const ultimo = obtenerUltimoEntrenamiento(ej.ejercicio);
     const datosEj = guardado[`ej${i}`] || {};
     const pesoVal = datosEj.peso ?? (ultimo ? ultimo.peso : "");
@@ -135,13 +207,11 @@ function abrirDia(dia) {
       html += `<br><span class="ultimo">📊 Último: ${ultimo.peso} kg</span>`;
     }
 
-    // Input de peso (solo uno, grande)
     html += `<div class="input-principal">
       <input type="number" class="input-peso" data-ej="${i}" 
              placeholder="kg" value="${pesoVal}" inputmode="decimal">
     </div>`;
 
-    // Casillas por serie
     html += `<div class="series-checkbox">`;
     for (let s = 0; s < ej.series; s++) {
       const key = `e${i}_s${s}`;
@@ -154,7 +224,6 @@ function abrirDia(dia) {
     }
     html += `</div>`;
 
-    // Botón descanso
     if (ej.descanso > 0) {
       html += `<div class="fila-descanso">
         <button class="btn-descanso" data-seg="${ej.descanso}">⏱ DESCANSAR ${ej.descanso}s</button>
@@ -164,8 +233,6 @@ function abrirDia(dia) {
     card.innerHTML = html;
     detalle.appendChild(card);
   });
-
-  // --- LISTENERS ---
 
   function guardarProgresoDia() {
     detalle.querySelectorAll(".card.ejercicio").forEach(card => {
@@ -188,16 +255,13 @@ function abrirDia(dia) {
     }
   }
 
-  // Input de peso
   detalle.querySelectorAll(".input-peso").forEach(inp => {
     inp.addEventListener("change", () => {
       guardarProgresoDia();
-      const card = inp.closest(".card.ejercicio");
-      guardarEstadoEjercicio(card);
+      guardarEstadoEjercicio(inp.closest(".card.ejercicio"));
     });
   });
 
-  // Checkboxes
   detalle.querySelectorAll(".serie-check").forEach(chk => {
     chk.addEventListener("change", () => {
       guardarProgresoDia();
@@ -208,7 +272,6 @@ function abrirDia(dia) {
     });
   });
 
-  // Botones de descanso
   detalle.querySelectorAll(".btn-descanso").forEach(btn => {
     btn.addEventListener("click", () => toggleDescanso(btn, parseInt(btn.dataset.seg)));
   });

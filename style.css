@@ -50,7 +50,7 @@ button:active{opacity:.8;}
   font-style:italic;
 }
 
-/* Último peso (solo referencia) */
+/* Último peso */
 .ejercicio .ultimo{
   display:inline-block;
   margin-top:6px;
@@ -62,7 +62,7 @@ button:active{opacity:.8;}
   border-radius:8px;
 }
 
-/* --- INPUT DE PESO (uno solo, grande) --- */
+/* Input de peso */
 .input-principal{
   margin-top:16px;
   margin-bottom:16px;
@@ -96,7 +96,7 @@ button:active{opacity:.8;}
   margin:0;
 }
 
-/* --- CASILLAS DE SERIES --- */
+/* Casillas de series */
 .series-checkbox{
   display:flex;
   flex-direction:column;
@@ -134,7 +134,7 @@ button:active{opacity:.8;}
   text-decoration:line-through;
 }
 
-/* --- BOTÓN DE DESCANSO --- */
+/* Botón descanso */
 .fila-descanso{
   margin-top:14px;
 }
@@ -161,4 +161,55 @@ button:active{opacity:.8;}
   border-radius:12px;
   margin:0;
   font-weight:600;
+}
+
+/* Botón Perfil */
+.btn-perfil{
+  position:absolute;
+  top:10px;
+  right:10px;
+  width:auto;
+  padding:8px 14px;
+  font-size:13px;
+  background:#1a2a3a;
+  color:#7ec8ff;
+  border:1px solid #7ec8ff;
+  border-radius:12px;
+  margin:0;
+  font-weight:600;
+}
+
+/* Campos del perfil */
+.campo-perfil{
+  display:block;
+  margin-bottom:16px;
+}
+.campo-perfil span{
+  display:block;
+  font-size:13px;
+  color:#aaa;
+  margin-bottom:6px;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+}
+.campo-perfil input{
+  width:100%;
+  padding:14px 12px;
+  background:#151515;
+  color:white;
+  border:2px solid #3a3a3a;
+  border-radius:12px;
+  font-size:16px;
+  font-weight:600;
+  box-sizing:border-box;
+}
+.campo-perfil input:focus{
+  outline:none;
+  border-color:#00d26a;
+  box-shadow:0 0 0 3px rgba(0,210,106,.2);
+}
+.campo-perfil input::placeholder{
+  color:#555;
+  font-weight:400;
 }
