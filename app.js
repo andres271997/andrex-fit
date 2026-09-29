@@ -22,16 +22,24 @@ fetch('rutina.json')
     console.error(err);
   });
 
-// -------- BOTÓN REINICIAR APP --------
+// -------- BOTÓN COMENZAR SEMANA NUEVA --------
 const btnReiniciar = document.getElementById("btnReiniciarApp");
 if (btnReiniciar) {
   btnReiniciar.addEventListener("click", () => {
-    const seguro = confirm("¿Seguro que quieres borrar TODO el progreso guardado? Esta acción no se puede deshacer.");
+    const seguro = confirm(
+      "🔴 COMENZAR SEMANA NUEVA\n\n" +
+      "Esto borrará el progreso de las series marcadas.\n\n" +
+      "✅ Se conservarán:\n" +
+      "• Los ejercicios configurados\n" +
+      "• Tu perfil\n" +
+      "• El historial de pesos y reps\n\n" +
+      "¿Quieres comenzar la semana nueva?"
+    );
     if (!seguro) return;
     Object.keys(localStorage).forEach(k => {
       if (k.startsWith("andrex_")) localStorage.removeItem(k);
     });
-    alert("✅ Progreso borrado. ¡Listo para empezar de nuevo!");
+    alert("✅ ¡Semana nueva lista! Vuelve a empezar la rutina.");
     pintarDias();
   });
 }
@@ -54,6 +62,44 @@ function pintarDias() {
     div.appendChild(btn);
     box.appendChild(div);
   });
+}
+
+// -------- UTILIDADES: HISTORIAL --------
+// Convierte un nombre de ejercicio en una clave segura para localStorage
+// Ej: "Press de banca con barra" → "press_de_banca_con_barra"
+function claveEjercicio(nombre) {
+  return "andrex_hist_" + nombre
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // quita acentos
+    .replace(/[^a-z0-9]+/g, "_")                      // reemplaza espacios y símbolos
+    .replace(/^_+|_+$/g, "");                         // quita _ al inicio/final
+}
+
+// Obtiene el último entrenamiento guardado para un ejercicio
+// Devuelve un objeto {fecha, peso, reps} o null si no existe
+function obtenerUltimoEntrenamiento(nombre) {
+  const clave = claveEjercicio(nombre);
+  const historial = JSON.parse(localStorage.getItem(clave) || "[]");
+  if (historial.length === 0) return null;
+  // El último registro es el más reciente
+  return historial[historial.length - 1];
+}
+
+// Formatea una fecha ISO "2026-09-29" → "hace X días"
+function formatearFecha(fechaISO) {
+  const hoy = new Date();
+  const fecha = new Date(fechaISO);
+  const diffMs = hoy - fecha;
+  const diffDias = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  if (diffDias === 0) return "hoy";
+  if (diffDias === 1) return "ayer";
+  if (diffDias < 7) return `hace ${diffDias} días`;
+  if (diffDias < 30) {
+    const semanas = Math.floor(diffDias / 7);
+    return semanas === 1 ? "hace 1 semana" : `hace ${semanas} semanas`;
+  }
+  const meses = Math.floor(diffDias / 30);
+  return meses === 1 ? "hace 1 mes" : `hace ${meses} meses`;
 }
 
 // -------- PANTALLA DE ENTRENAMIENTO --------
@@ -80,7 +126,18 @@ function abrirDia(dia) {
 
     let html = `<b>${ej.ejercicio}</b><br>
       <span class="meta">${ej.series} series · ${ej.reps} reps${ej.descanso > 0 ? " · " + ej.descanso + "s" : ""}</span>`;
+
     if (ej.notas) html += `<br><span class="nota">💡 ${ej.notas}</span>`;
+
+    // Mostrar último entrenamiento (si existe en el historial)
+    const ultimo = obtenerUltimoEntrenamiento(ej.ejercicio);
+    if (ultimo) {
+      html += `<br><span class="ultimo">
+        📊 Último: ${ultimo.peso} kg · ${ultimo.reps.join(" · ")}
+        <span class="fecha">(${formatearFecha(ultimo.fecha)})</span>
+      </span>`;
+    }
+
     html += `<br><br>`;
 
     for (let s = 0; s < ej.series; s++) {
@@ -93,7 +150,6 @@ function abrirDia(dia) {
       </label>`;
     }
 
-    // Solo mostrar botón cronómetro si hay descanso > 0
     if (ej.descanso > 0) {
       html += `<div class="fila-descanso">
         <button class="btn-descanso" data-seg="${ej.descanso}">⏱ DESCANSAR ${ej.descanso}s</button>
@@ -128,12 +184,11 @@ function abrirDia(dia) {
   });
 }
 
-// -------- TEMPORIZADOR DE DESCANSO (CORREGIDO) --------
+// -------- TEMPORIZADOR DE DESCANSO --------
 let timerInterval = null;
-let timerActivo = null; // referencia al botón que está contando
+let timerActivo = null;
 
 function toggleDescanso(btn, segundos) {
-  // Si este botón ya está contando, lo pausamos
   if (timerActivo === btn && timerInterval) {
     clearInterval(timerInterval);
     timerInterval = null;
@@ -142,7 +197,6 @@ function toggleDescanso(btn, segundos) {
     return;
   }
 
-  // Si hay otro cronómetro corriendo, lo reseteamos
   if (timerInterval) {
     clearInterval(timerInterval);
     timerInterval = null;
@@ -151,7 +205,6 @@ function toggleDescanso(btn, segundos) {
     }
   }
 
-  // Iniciar el nuevo
   timerActivo = btn;
   let restante = segundos;
   btn.textContent = `⏱ ${restante}s — toca para parar`;
@@ -164,7 +217,6 @@ function toggleDescanso(btn, segundos) {
       timerActivo = null;
       btn.textContent = `✅ ¡LISTO! DESCANSAR ${segundos}s`;
       if (navigator.vibrate) navigator.vibrate([300, 200, 300, 200, 300]);
-      // El botón sigue funcionando: al tocarlo reinicia
       return;
     }
     btn.textContent = `⏱ ${restante}s — toca para parar`;

@@ -101,3 +101,20 @@ button:active{opacity:.8;}
   margin:0;
   font-weight:600;
 }
+
+/* Último entrenamiento (Paso 4) */
+.ejercicio .ultimo{
+  display:inline-block;
+  margin-top:6px;
+  color:#7ec8ff;
+  font-size:13px;
+  font-weight:600;
+  background:rgba(126,200,255,.08);
+  padding:4px 8px;
+  border-radius:8px;
+}
+.ejercicio .ultimo .fecha{
+  color:#888;
+  font-weight:400;
+  font-style:italic;
+}
