@@ -1,6 +1,7 @@
 const box = document.getElementById("days");
 const detalle = document.getElementById("detalle");
 const perfil = document.getElementById("perfil");
+const historial = document.getElementById("historial");
 const subtitulo = document.getElementById("subtitulo");
 const titulo = document.querySelector("h1");
 
@@ -65,6 +66,7 @@ function guardarPerfil(perfil) {
 function abrirPerfil() {
   box.classList.add("oculto");
   detalle.classList.add("oculto");
+  historial.classList.add("oculto");
   subtitulo.classList.add("oculto");
   perfil.classList.remove("oculto");
   perfil.innerHTML = "";
@@ -117,14 +119,70 @@ function abrirPerfil() {
   document.getElementById("btnVolverPerfil").onclick = pintarDias;
 }
 
+// -------- HISTORIAL DE UN EJERCICIO --------
+function abrirHistorial(nombreEjercicio) {
+  box.classList.add("oculto");
+  detalle.classList.add("oculto");
+  perfil.classList.add("oculto");
+  subtitulo.classList.add("oculto");
+  titulo.textContent = "📈 Historial";
+  historial.classList.remove("oculto");
+  historial.innerHTML = "";
+
+  const clave = claveEjercicio(nombreEjercicio);
+  const registros = JSON.parse(localStorage.getItem(clave) || "[]");
+
+  // Ordenar del más reciente al más antiguo
+  const ordenados = [...registros].reverse();
+
+  let html = `<h1 style="margin-top:20px;">📈 HISTORIAL</h1>
+    <p style="color:#7ec8ff;font-size:15px;font-weight:600;">${nombreEjercicio}</p>
+    <div class="card">`;
+
+  if (ordenados.length === 0) {
+    html += `<p style="text-align:center;color:#888;">Sin registros todavía.</p>`;
+  } else {
+    html += `<div class="lista-historial">`;
+    ordenados.forEach(r => {
+      html += `<div class="fila-historial">
+        <span class="fecha-hist">${formatearFechaCompleta(r.fecha)}</span>
+        <span class="peso-hist">${r.peso} kg</span>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  html += `</div>
+    <button id="btnVolverHist" class="back">← VOLVER</button>`;
+
+  historial.innerHTML = html;
+
+  document.getElementById("btnVolverHist").onclick = () => {
+    // Volver al día de donde venimos (si es posible)
+    if (window.diaOrigenHistorial) {
+      abrirDia(window.diaOrigenHistorial);
+    } else {
+      pintarDias();
+    }
+  };
+}
+
+// Formatea "2026-09-29" → "29/09/2026"
+function formatearFechaCompleta(fechaISO) {
+  const [y, m, d] = fechaISO.split("-");
+  return `${d}/${m}/${y}`;
+}
+
 // -------- PANTALLA PRINCIPAL --------
 function pintarDias() {
   box.innerHTML = "";
   detalle.classList.add("oculto");
   perfil.classList.add("oculto");
+  historial.classList.add("oculto");
   box.classList.remove("oculto");
   subtitulo.classList.remove("oculto");
   titulo.textContent = "💪 ANDREX FIT";
+  window.diaOrigenHistorial = null;
 
   Object.entries(rutina).forEach(([dia, info]) => {
     const div = document.createElement("div");
@@ -166,7 +224,7 @@ function guardarEnHistorial(nombre, peso) {
   } else {
     historial.push(nuevoRegistro);
   }
-  if (historial.length > 20) historial.shift();
+  if (historial.length > 50) historial.shift();
   localStorage.setItem(clave, JSON.stringify(historial));
 }
 
@@ -176,9 +234,11 @@ function abrirDia(dia) {
   box.classList.add("oculto");
   subtitulo.classList.add("oculto");
   perfil.classList.add("oculto");
+  historial.classList.add("oculto");
   titulo.textContent = dia + " · " + info.nombre;
   detalle.classList.remove("oculto");
   detalle.innerHTML = "";
+  window.diaOrigenHistorial = dia;
 
   const back = document.createElement("button");
   back.textContent = "← VOLVER";
@@ -204,7 +264,10 @@ function abrirDia(dia) {
     if (ej.notas) html += `<br><span class="nota">💡 ${ej.notas}</span>`;
 
     if (ultimo) {
-      html += `<br><span class="ultimo">📊 Último: ${ultimo.peso} kg</span>`;
+      html += `<br><div class="fila-ultimo">
+        <span class="ultimo">📊 Último: ${ultimo.peso} kg</span>
+        <button class="btn-historial" data-ejercicio="${ej.ejercicio}">📈 Ver historial</button>
+      </div>`;
     }
 
     html += `<div class="input-principal">
@@ -274,6 +337,14 @@ function abrirDia(dia) {
 
   detalle.querySelectorAll(".btn-descanso").forEach(btn => {
     btn.addEventListener("click", () => toggleDescanso(btn, parseInt(btn.dataset.seg)));
+  });
+
+  // Botones de "Ver historial"
+  detalle.querySelectorAll(".btn-historial").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      abrirHistorial(btn.dataset.ejercicio);
+    });
   });
 }
 

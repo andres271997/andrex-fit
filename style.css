@@ -50,16 +50,38 @@ button:active{opacity:.8;}
   font-style:italic;
 }
 
-/* Último peso */
+/* Último peso + botón historial */
+.fila-ultimo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:8px;
+  flex-wrap:wrap;
+}
 .ejercicio .ultimo{
   display:inline-block;
-  margin-top:6px;
   color:#7ec8ff;
   font-size:13px;
   font-weight:600;
   background:rgba(126,200,255,.08);
   padding:4px 10px;
   border-radius:8px;
+}
+.btn-historial{
+  width:auto;
+  display:inline-block;
+  padding:4px 10px;
+  font-size:12px;
+  font-weight:600;
+  background:rgba(126,200,255,.15);
+  color:#7ec8ff;
+  border:1px solid rgba(126,200,255,.4);
+  border-radius:8px;
+  margin:0;
+  cursor:pointer;
+}
+.btn-historial:active{
+  background:rgba(126,200,255,.25);
 }
 
 /* Input de peso */
@@ -212,4 +234,31 @@ button:active{opacity:.8;}
 .campo-perfil input::placeholder{
   color:#555;
   font-weight:400;
+}
+
+/* Historial */
+.lista-historial{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+.fila-historial{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 8px;
+  border-bottom:1px solid #2a2a2a;
+}
+.fila-historial:last-child{
+  border-bottom:none;
+}
+.fecha-hist{
+  font-size:15px;
+  color:#aaa;
+  font-weight:500;
+}
+.peso-hist{
+  font-size:17px;
+  color:#00d26a;
+  font-weight:700;
 }
