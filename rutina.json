@@ -1,79 +1,69 @@
 {
   "LUNES": {
-    "nombre": "Empuje (Fuerza)",
+    "nombre": "Push A",
     "ejercicios": [
-      { "ejercicio": "Press banca con barra", "series": 4, "reps": "6-8", "descanso": 120, "notas": "Baja controlado (2 s), sube fuerte." },
-      { "ejercicio": "Press inclinado con mancuernas", "series": 3, "reps": "8-10", "descanso": 90 },
-      { "ejercicio": "Press militar con mancuernas", "series": 3, "reps": "8-10", "descanso": 90 },
-      { "ejercicio": "Elevaciones laterales", "series": 3, "reps": "12-15", "descanso": 60, "notas": "Sin balancear el cuerpo." },
-      { "ejercicio": "Extensión de tríceps en polea", "series": 3, "reps": "10-12", "descanso": 60 },
-      { "ejercicio": "Plancha", "series": 3, "reps": "40-60 s", "descanso": 45, "notas": "Abdomen y glúteo apretados." },
-      { "ejercicio": "Cardio: Caminata inclinada o bici suave", "series": 1, "reps": "25 min", "descanso": 0, "notas": "Ritmo en que puedes hablar." }
+      { "ejercicio": "Press de banca con barra", "series": 3, "reps": "6-10", "descanso": 150, "notas": "Escápulas estables; no rebotes." },
+      { "ejercicio": "Press inclinado con mancuernas", "series": 3, "reps": "8-12", "descanso": 120, "notas": "Inclinación moderada; recorrido cómodo." },
+      { "ejercicio": "Press de pecho convergente", "series": 2, "reps": "8-12", "descanso": 105, "notas": "Ajustar asiento a media altura del pecho." },
+      { "ejercicio": "Elevación lateral", "series": 3, "reps": "12-20", "descanso": 75, "notas": "Sin balancear." },
+      { "ejercicio": "Extensión de tríceps en polea con cuerda", "series": 3, "reps": "10-15", "descanso": 75, "notas": "Codos estables." },
+      { "ejercicio": "Extensión de tríceps por encima de la cabeza", "series": 2, "reps": "10-15", "descanso": 75, "notas": "Buen estiramiento de tríceps." }
     ]
   },
   "MARTES": {
-    "nombre": "Tirón (Fuerza)",
+    "nombre": "Pull A",
     "ejercicios": [
-      { "ejercicio": "Dominadas o jalón al pecho", "series": 4, "reps": "6-10", "descanso": 120, "notas": "Jala con los codos, no con las manos." },
-      { "ejercicio": "Remo con barra", "series": 4, "reps": "8-10", "descanso": 90, "notas": "Espalda recta." },
-      { "ejercicio": "Remo con mancuerna a una mano", "series": 3, "reps": "10-12", "descanso": 60 },
-      { "ejercicio": "Face pull o pájaro con mancuernas", "series": 3, "reps": "15", "descanso": 60, "notas": "Postura y hombros sanos." },
-      { "ejercicio": "Curl con barra", "series": 3, "reps": "8-10", "descanso": 60 },
-      { "ejercicio": "Elevación de piernas (colgado o en suelo)", "series": 3, "reps": "10-15", "descanso": 45 },
-      { "ejercicio": "Cardio: Caminata inclinada o bici suave", "series": 1, "reps": "25 min", "descanso": 0 }
+      { "ejercicio": "Jalón al pecho agarre neutro", "series": 3, "reps": "6-10", "descanso": 120, "notas": "Llevar codos hacia las costillas." },
+      { "ejercicio": "Remo con pecho apoyado", "series": 3, "reps": "8-12", "descanso": 120, "notas": "Evita impulso lumbar." },
+      { "ejercicio": "Remo unilateral en polea", "series": 2, "reps": "10-12", "descanso": 90, "notas": "Buscar recorrido completo." },
+      { "ejercicio": "Reverse fly", "series": 3, "reps": "12-20", "descanso": 75, "notas": "No convertirlo en remo." },
+      { "ejercicio": "Curl con barra EZ", "series": 3, "reps": "8-12", "descanso": 90, "notas": "Sin balanceo." },
+      { "ejercicio": "Curl martillo", "series": 2, "reps": "10-15", "descanso": 75, "notas": "Agarre neutro." }
     ]
   },
   "MIÉRCOLES": {
-    "nombre": "Pierna (Fuerza)",
+    "nombre": "Legs A",
     "ejercicios": [
-      { "ejercicio": "Sentadilla con barra", "series": 4, "reps": "6-8", "descanso": 150, "notas": "Profundidad hasta donde controles la técnica." },
-      { "ejercicio": "Peso muerto rumano", "series": 3, "reps": "8-10", "descanso": 120, "notas": "Cadera atrás, espalda neutra." },
-      { "ejercicio": "Prensa de piernas", "series": 3, "reps": "10-12", "descanso": 90 },
-      { "ejercicio": "Curl femoral", "series": 3, "reps": "12", "descanso": 60 },
-      { "ejercicio": "Elevación de talones", "series": 4, "reps": "12-15", "descanso": 45 },
-      { "ejercicio": "Rueda abdominal o crunch en polea", "series": 3, "reps": "10-15", "descanso": 45 },
-      { "ejercicio": "Cardio: Caminata suave", "series": 1, "reps": "20 min", "descanso": 0, "notas": "Día pesado: cardio corto." }
+      { "ejercicio": "Hack squat", "series": 3, "reps": "6-10", "descanso": 150, "notas": "Profundidad que controles." },
+      { "ejercicio": "Prensa de piernas", "series": 3, "reps": "8-12", "descanso": 120, "notas": "Rodillas siguen dirección de los pies." },
+      { "ejercicio": "Peso muerto rumano", "series": 3, "reps": "6-10", "descanso": 150, "notas": "Cadera atrás; columna neutra." },
+      { "ejercicio": "Curl femoral sentado", "series": 3, "reps": "10-15", "descanso": 90, "notas": "Controlar la fase de regreso." },
+      { "ejercicio": "Hip thrust", "series": 2, "reps": "8-12", "descanso": 120, "notas": "Pausa breve arriba." },
+      { "ejercicio": "Elevación de talones de pie", "series": 3, "reps": "8-15", "descanso": 75, "notas": "Estiramiento y contracción completos." }
     ]
   },
   "JUEVES": {
-    "nombre": "Empuje (Volumen)",
+    "nombre": "Push B",
     "ejercicios": [
-      { "ejercicio": "Press inclinado con barra", "series": 4, "reps": "8-10", "descanso": 90 },
-      { "ejercicio": "Aperturas en polea o mancuernas", "series": 3, "reps": "12-15", "descanso": 60, "notas": "Estira el pecho, sin dolor de hombro." },
-      { "ejercicio": "Press de hombro en máquina", "series": 3, "reps": "10-12", "descanso": 90 },
-      { "ejercicio": "Elevaciones laterales", "series": 4, "reps": "15", "descanso": 45, "notas": "Última serie hasta el fallo." },
-      { "ejercicio": "Extensión sobre la cabeza", "series": 3, "reps": "12", "descanso": 60 },
-      { "ejercicio": "Cardio HIIT: 30 s fuerte / 30 s suave", "series": 1, "reps": "12-15 min", "descanso": 0, "notas": "Bici, remo o trote. Fuerte = 8/10." }
+      { "ejercicio": "Press inclinado en máquina", "series": 3, "reps": "6-10", "descanso": 120, "notas": "Ajustar asiento y recorrido." },
+      { "ejercicio": "Press plano con mancuernas", "series": 3, "reps": "8-12", "descanso": 120, "notas": "No sacrificar técnica por peso." },
+      { "ejercicio": "Aperturas en polea", "series": 2, "reps": "12-15", "descanso": 75, "notas": "No forzar el estiramiento." },
+      { "ejercicio": "Elevación lateral en máquina", "series": 3, "reps": "12-20", "descanso": 75, "notas": "Movimiento limpio." },
+      { "ejercicio": "Press de hombro en máquina", "series": 2, "reps": "8-12", "descanso": 105, "notas": "No arquear excesivamente." },
+      { "ejercicio": "Pressdown con barra o cuerda", "series": 3, "reps": "8-12", "descanso": 75, "notas": "Extensión completa." },
+      { "ejercicio": "Extensión unilateral sobre cabeza", "series": 2, "reps": "10-15", "descanso": 75, "notas": "Comparar ambos lados." }
     ]
   },
   "VIERNES": {
-    "nombre": "Tirón (Volumen)",
+    "nombre": "Pull B",
     "ejercicios": [
-      { "ejercicio": "Remo en máquina o barra T", "series": 4, "reps": "8-10", "descanso": 90 },
-      { "ejercicio": "Jalón agarre estrecho", "series": 3, "reps": "10-12", "descanso": 60 },
-      { "ejercicio": "Pullover en polea", "series": 3, "reps": "12-15", "descanso": 60, "notas": "Aísla dorsales." },
-      { "ejercicio": "Curl inclinado con mancuernas", "series": 3, "reps": "10-12", "descanso": 60 },
-      { "ejercicio": "Curl martillo", "series": 2, "reps": "12", "descanso": 60 },
-      { "ejercicio": "Crunch en polea o bicicleta abdominal", "series": 3, "reps": "12-15", "descanso": 45 },
-      { "ejercicio": "Cardio: Caminata inclinada o bici suave", "series": 1, "reps": "25 min", "descanso": 0 }
+      { "ejercicio": "Dominadas asistidas o jalón", "series": 3, "reps": "6-10", "descanso": 120, "notas": "Elegir la variante más estable." },
+      { "ejercicio": "Remo sentado en polea", "series": 3, "reps": "8-12", "descanso": 120, "notas": "No balancear el torso." },
+      { "ejercicio": "Pullover en polea", "series": 2, "reps": "10-15", "descanso": 75, "notas": "Mantener tensión en dorsales." },
+      { "ejercicio": "Reverse fly en máquina", "series": 3, "reps": "12-20", "descanso": 75, "notas": "Control total." },
+      { "ejercicio": "Curl inclinado con mancuernas", "series": 3, "reps": "8-12", "descanso": 90, "notas": "No extender violentamente el codo." },
+      { "ejercicio": "Curl predicador", "series": 2, "reps": "10-15", "descanso": 75, "notas": "Sin despegar el brazo." }
     ]
   },
   "SÁBADO": {
-    "nombre": "Pierna y Glúteo (Volumen)",
+    "nombre": "Legs B",
     "ejercicios": [
-      { "ejercicio": "Prensa de piernas", "series": 4, "reps": "10-12", "descanso": 90 },
-      { "ejercicio": "Zancadas caminando", "series": 3, "reps": "12 por pierna", "descanso": 90 },
-      { "ejercicio": "Hip thrust", "series": 3, "reps": "10-12", "descanso": 90 },
-      { "ejercicio": "Extensión de cuádriceps", "series": 3, "reps": "12-15", "descanso": 60 },
-      { "ejercicio": "Curl femoral sentado", "series": 3, "reps": "12", "descanso": 60 },
-      { "ejercicio": "Plancha lateral", "series": 3, "reps": "30 s por lado", "descanso": 45 },
-      { "ejercicio": "Cardio HIIT: 30 s fuerte / 30 s suave", "series": 1, "reps": "12 min", "descanso": 0 }
-    ]
-  },
-  "DOMINGO": {
-    "nombre": "Descanso Activo",
-    "ejercicios": [
-      { "ejercicio": "Caminata + movilidad", "series": 1, "reps": "30-45 min", "descanso": 0, "notas": "Sigue con creatina y dieta." }
+      { "ejercicio": "Sentadilla en máquina/Hack squat", "series": 3, "reps": "8-12", "descanso": 120, "notas": "Usar la variante más estable." },
+      { "ejercicio": "Extensión de piernas", "series": 2, "reps": "10-15", "descanso": 75, "notas": "Controlar la bajada." },
+      { "ejercicio": "Hip thrust", "series": 3, "reps": "8-12", "descanso": 120, "notas": "Pausa arriba." },
+      { "ejercicio": "Curl femoral acostado", "series": 3, "reps": "10-15", "descanso": 90, "notas": "No despegar la cadera." },
+      { "ejercicio": "Sentadilla búlgara", "series": 2, "reps": "8-12 por pierna", "descanso": 105, "notas": "Estabilidad primero." },
+      { "ejercicio": "Elevación de talones sentado", "series": 3, "reps": "10-20", "descanso": 75, "notas": "Recorrido completo." }
     ]
   }
 }
