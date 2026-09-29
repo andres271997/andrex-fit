@@ -50,79 +50,101 @@ button:active{opacity:.8;}
   font-style:italic;
 }
 
-/* Fila de serie con inputs */
-.serie-fila{
-  display:grid;
-  grid-template-columns: 30px 60px 1fr 1fr;
-  gap:8px;
-  align-items:center;
-  padding:10px 0;
-  border-bottom:1px solid #333;
-}
-.serie-check input{
-  width:22px;
-  height:22px;
-  accent-color:#00d26a;
-  cursor:pointer;
-}
-.serie-num{
-  font-size:14px;
-  color:#aaa;
-}
-.input-peso,
-.input-reps{
-  width:100%;
-  padding:10px;
-  background:#111;
-  color:white;
-  border:1px solid #444;
-  border-radius:10px;
-  font-size:15px;
+/* Último peso (solo referencia) */
+.ejercicio .ultimo{
+  display:inline-block;
+  margin-top:6px;
+  color:#7ec8ff;
+  font-size:13px;
   font-weight:600;
+  background:rgba(126,200,255,.08);
+  padding:4px 10px;
+  border-radius:8px;
+}
+
+/* --- INPUT DE PESO (uno solo, grande) --- */
+.input-principal{
+  margin-top:16px;
+  margin-bottom:16px;
+}
+.input-peso{
+  width:100%;
+  padding:18px 12px;
+  background:#151515;
+  color:white;
+  border:2px solid #3a3a3a;
+  border-radius:12px;
+  font-size:22px;
+  font-weight:700;
   text-align:center;
   box-sizing:border-box;
+  -moz-appearance:textfield;
 }
-.input-peso:focus,
-.input-reps:focus{
+.input-peso:focus{
   outline:none;
   border-color:#00d26a;
-  box-shadow:0 0 0 2px rgba(0,210,106,.2);
+  box-shadow:0 0 0 3px rgba(0,210,106,.2);
 }
-.input-peso::placeholder,
-.input-reps::placeholder{
-  color:#666;
+.input-peso::placeholder{
+  color:#555;
   font-weight:400;
+  font-size:16px;
 }
-/* Ocultar flechitas de los inputs number */
 .input-peso::-webkit-outer-spin-button,
-.input-peso::-webkit-inner-spin-button,
-.input-reps::-webkit-outer-spin-button,
-.input-reps::-webkit-inner-spin-button{
+.input-peso::-webkit-inner-spin-button{
   -webkit-appearance:none;
   margin:0;
 }
 
-/* Fila con botón descanso + botón reset */
-.fila-descanso{
+/* --- CASILLAS DE SERIES --- */
+.series-checkbox{
   display:flex;
-  gap:8px;
-  margin-top:15px;
+  flex-direction:column;
+  gap:4px;
+  margin-bottom:14px;
+}
+.serie-check-label{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 10px;
+  border-radius:10px;
+  cursor:pointer;
+  user-select:none;
+  transition:background .15s;
+}
+.serie-check-label:active{
+  background:#2a2a2a;
+}
+.serie-check-label input{
+  width:24px;
+  height:24px;
+  accent-color:#00d26a;
+  cursor:pointer;
+  margin:0;
+  flex-shrink:0;
+}
+.serie-check-label span{
+  font-size:16px;
+  color:#ccc;
+  font-weight:600;
+}
+.serie-check-label input:checked + span{
+  color:#00d26a;
+  text-decoration:line-through;
+}
+
+/* --- BOTÓN DE DESCANSO --- */
+.fila-descanso{
+  margin-top:14px;
 }
 .btn-descanso{
-  flex:1;
+  width:100%;
   background:#007a3d;
   color:#fff;
   font-size:16px;
   margin-top:0;
-}
-.btn-reset-descanso{
-  width:56px;
-  flex:0 0 56px;
-  background:#444;
-  color:#fff;
-  font-size:20px;
-  padding:18px 0;
-  margin-top:0;
+  padding:16px;
 }
 
 /* Botón Comenzar Semana Nueva */
@@ -139,21 +161,4 @@ button:active{opacity:.8;}
   border-radius:12px;
   margin:0;
   font-weight:600;
-}
-
-/* Último entrenamiento */
-.ejercicio .ultimo{
-  display:inline-block;
-  margin-top:6px;
-  color:#7ec8ff;
-  font-size:13px;
-  font-weight:600;
-  background:rgba(126,200,255,.08);
-  padding:4px 8px;
-  border-radius:8px;
-}
-.ejercicio .ultimo .fecha{
-  color:#888;
-  font-weight:400;
-  font-style:italic;
 }
