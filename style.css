@@ -49,18 +49,57 @@ button:active{opacity:.8;}
   font-size:13px;
   font-style:italic;
 }
-.serie{
-  display:flex;
+
+/* Fila de serie con inputs */
+.serie-fila{
+  display:grid;
+  grid-template-columns: 30px 60px 1fr 1fr;
+  gap:8px;
   align-items:center;
-  gap:12px;
   padding:10px 0;
-  font-size:16px;
   border-bottom:1px solid #333;
 }
-.serie input{
+.serie-check input{
   width:22px;
   height:22px;
   accent-color:#00d26a;
+  cursor:pointer;
+}
+.serie-num{
+  font-size:14px;
+  color:#aaa;
+}
+.input-peso,
+.input-reps{
+  width:100%;
+  padding:10px;
+  background:#111;
+  color:white;
+  border:1px solid #444;
+  border-radius:10px;
+  font-size:15px;
+  font-weight:600;
+  text-align:center;
+  box-sizing:border-box;
+}
+.input-peso:focus,
+.input-reps:focus{
+  outline:none;
+  border-color:#00d26a;
+  box-shadow:0 0 0 2px rgba(0,210,106,.2);
+}
+.input-peso::placeholder,
+.input-reps::placeholder{
+  color:#666;
+  font-weight:400;
+}
+/* Ocultar flechitas de los inputs number */
+.input-peso::-webkit-outer-spin-button,
+.input-peso::-webkit-inner-spin-button,
+.input-reps::-webkit-outer-spin-button,
+.input-reps::-webkit-inner-spin-button{
+  -webkit-appearance:none;
+  margin:0;
 }
 
 /* Fila con botón descanso + botón reset */
@@ -102,7 +141,7 @@ button:active{opacity:.8;}
   font-weight:600;
 }
 
-/* Último entrenamiento (Paso 4) */
+/* Último entrenamiento */
 .ejercicio .ultimo{
   display:inline-block;
   margin-top:6px;

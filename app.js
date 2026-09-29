@@ -37,7 +37,9 @@ if (btnReiniciar) {
     );
     if (!seguro) return;
     Object.keys(localStorage).forEach(k => {
-      if (k.startsWith("andrex_")) localStorage.removeItem(k);
+      if (k.startsWith("andrex_") && !k.startsWith("andrex_hist_")) {
+        localStorage.removeItem(k);
+      }
     });
     alert("✅ ¡Semana nueva lista! Vuelve a empezar la rutina.");
     pintarDias();
@@ -65,27 +67,21 @@ function pintarDias() {
 }
 
 // -------- UTILIDADES: HISTORIAL --------
-// Convierte un nombre de ejercicio en una clave segura para localStorage
-// Ej: "Press de banca con barra" → "press_de_banca_con_barra"
 function claveEjercicio(nombre) {
   return "andrex_hist_" + nombre
     .toLowerCase()
-    .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // quita acentos
-    .replace(/[^a-z0-9]+/g, "_")                      // reemplaza espacios y símbolos
-    .replace(/^_+|_+$/g, "");                         // quita _ al inicio/final
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "");
 }
 
-// Obtiene el último entrenamiento guardado para un ejercicio
-// Devuelve un objeto {fecha, peso, reps} o null si no existe
 function obtenerUltimoEntrenamiento(nombre) {
   const clave = claveEjercicio(nombre);
   const historial = JSON.parse(localStorage.getItem(clave) || "[]");
   if (historial.length === 0) return null;
-  // El último registro es el más reciente
   return historial[historial.length - 1];
 }
 
-// Formatea una fecha ISO "2026-09-29" → "hace X días"
 function formatearFecha(fechaISO) {
   const hoy = new Date();
   const fecha = new Date(fechaISO);
@@ -100,6 +96,24 @@ function formatearFecha(fechaISO) {
   }
   const meses = Math.floor(diffDias / 30);
   return meses === 1 ? "hace 1 mes" : `hace ${meses} meses`;
+}
+
+function guardarEnHistorial(nombre, peso, reps) {
+  if (peso <= 0 || reps <= 0) return;
+  const clave = claveEjercicio(nombre);
+  const historial = JSON.parse(localStorage.getItem(clave) || "[]");
+  const fechaHoy = new Date().toISOString().slice(0, 10);
+  // Si ya hay un registro de hoy, lo reemplazamos
+  const idxHoy = historial.findIndex(r => r.fecha === fechaHoy);
+  const nuevoRegistro = { fecha: fechaHoy, peso: peso, reps: reps };
+  if (idxHoy >= 0) {
+    historial[idxHoy] = nuevoRegistro;
+  } else {
+    historial.push(nuevoRegistro);
+  }
+  // Mantener solo los últimos 20 registros
+  if (historial.length > 20) historial.shift();
+  localStorage.setItem(clave, JSON.stringify(historial));
 }
 
 // -------- PANTALLA DE ENTRENAMIENTO --------
@@ -123,13 +137,14 @@ function abrirDia(dia) {
   info.ejercicios.forEach((ej, i) => {
     const card = document.createElement("div");
     card.className = "card ejercicio";
+    card.dataset.ejercicio = ej.ejercicio;
 
     let html = `<b>${ej.ejercicio}</b><br>
       <span class="meta">${ej.series} series · ${ej.reps} reps${ej.descanso > 0 ? " · " + ej.descanso + "s" : ""}</span>`;
 
     if (ej.notas) html += `<br><span class="nota">💡 ${ej.notas}</span>`;
 
-    // Mostrar último entrenamiento (si existe en el historial)
+    // Mostrar último entrenamiento (del historial)
     const ultimo = obtenerUltimoEntrenamiento(ej.ejercicio);
     if (ultimo) {
       html += `<br><span class="ultimo">
@@ -140,14 +155,24 @@ function abrirDia(dia) {
 
     html += `<br><br>`;
 
+    // Generar fila por cada serie con inputs de peso y reps
     for (let s = 0; s < ej.series; s++) {
       const key = `e${i}_s${s}`;
-      const marcado = guardado[key] ? "checked" : "";
-      const labelSerie = ej.series === 1 ? "Hecho" : `Serie ${s + 1}`;
-      html += `<label class="serie">
-        <input type="checkbox" data-key="${key}" ${marcado}>
-        ${labelSerie}
-      </label>`;
+      const datosSerie = guardado[key] || {};
+      const checked = datosSerie.hecha ? "checked" : "";
+      const pesoVal = datosSerie.peso || "";
+      const repsVal = datosSerie.reps || "";
+
+      html += `<div class="serie-fila">
+        <label class="serie-check">
+          <input type="checkbox" data-key="${key}" ${checked}>
+        </label>
+        <span class="serie-num">Serie ${s + 1}</span>
+        <input type="number" class="input-peso" data-key="${key}" 
+               placeholder="kg" value="${pesoVal}" inputmode="decimal">
+        <input type="number" class="input-reps" data-key="${key}" 
+               placeholder="reps" value="${repsVal}" inputmode="numeric">
+      </div>`;
     }
 
     if (ej.descanso > 0) {
@@ -161,12 +186,81 @@ function abrirDia(dia) {
     detalle.appendChild(card);
   });
 
-  // Guardar progreso
+  // --- LISTENERS DE INPUTS Y CHECKBOXES ---
+
+  // Checkboxes: guardan estado y peso/reps en el historial
   detalle.querySelectorAll('input[type="checkbox"]').forEach(chk => {
     chk.addEventListener("change", () => {
-      guardado[chk.dataset.key] = chk.checked;
+      const key = chk.dataset.key;
+      const card = chk.closest(".card.ejercicio");
+      const nombreEj = card.dataset.ejercicio;
+
+      // Leer peso y reps de esa fila
+      const fila = chk.closest(".serie-fila");
+      const peso = parseFloat(fila.querySelector(".input-peso").value) || 0;
+      const reps = parseInt(fila.querySelector(".input-reps").value) || 0;
+
+      // Guardar en el día actual
+      guardado[key] = { hecha: chk.checked, peso: peso, reps: reps };
       localStorage.setItem(clave, JSON.stringify(guardado));
-      if (chk.checked && navigator.vibrate) navigator.vibrate(30);
+
+      // Si se marcó como hecha, guardar en el historial del ejercicio
+      if (chk.checked && peso > 0 && reps > 0) {
+        // Recopilar todas las series marcadas de este ejercicio
+        const seriesHechas = [];
+        card.querySelectorAll(".serie-fila").forEach(f => {
+          const c = f.querySelector('input[type="checkbox"]');
+          if (c.checked) {
+            const p = parseFloat(f.querySelector(".input-peso").value) || 0;
+            const r = parseInt(f.querySelector(".input-reps").value) || 0;
+            if (p > 0 && r > 0) seriesHechas.push({ peso: p, reps: r });
+          }
+        });
+        // Guardar el registro con el peso de la primera serie
+        if (seriesHechas.length > 0) {
+          guardarEnHistorial(
+            nombreEj,
+            seriesHechas[0].peso,
+            seriesHechas.map(s => s.reps)
+          );
+        }
+        if (navigator.vibrate) navigator.vibrate(30);
+      }
+    });
+  });
+
+  // Inputs de peso y reps: guardar progreso al cambiar
+  detalle.querySelectorAll(".input-peso, .input-reps").forEach(inp => {
+    inp.addEventListener("change", () => {
+      const key = inp.dataset.key;
+      const card = inp.closest(".card.ejercicio");
+      const fila = inp.closest(".serie-fila");
+      const chk = fila.querySelector('input[type="checkbox"]');
+      const peso = parseFloat(fila.querySelector(".input-peso").value) || 0;
+      const reps = parseInt(fila.querySelector(".input-reps").value) || 0;
+
+      guardado[key] = { hecha: chk.checked, peso: peso, reps: reps };
+      localStorage.setItem(clave, JSON.stringify(guardado));
+
+      // Si la casilla ya está marcada, actualizar historial
+      if (chk.checked && peso > 0 && reps > 0) {
+        const seriesHechas = [];
+        card.querySelectorAll(".serie-fila").forEach(f => {
+          const c = f.querySelector('input[type="checkbox"]');
+          if (c.checked) {
+            const p = parseFloat(f.querySelector(".input-peso").value) || 0;
+            const r = parseInt(f.querySelector(".input-reps").value) || 0;
+            if (p > 0 && r > 0) seriesHechas.push({ peso: p, reps: r });
+          }
+        });
+        if (seriesHechas.length > 0) {
+          guardarEnHistorial(
+            card.dataset.ejercicio,
+            seriesHechas[0].peso,
+            seriesHechas.map(s => s.reps)
+          );
+        }
+      }
     });
   });
 
