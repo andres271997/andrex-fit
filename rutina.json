@@ -1,20 +1,56 @@
 {
-  "Lunes": {
-    "ejercicio": "Press banca",
-    "series": 4,
-    "reps": "6-8",
-    "descanso": "120"
+  "LUNES": {
+    "nombre": "Empuje Fuerza",
+    "ejercicios": [
+      { "ejercicio": "Press banca", "series": 4, "reps": "6-8", "descanso": 120 },
+      { "ejercicio": "Press militar", "series": 4, "reps": "6-8", "descanso": 120 },
+      { "ejercicio": "Fondos en paralelas", "series": 3, "reps": "8-10", "descanso": 90 },
+      { "ejercicio": "Extensión tríceps polea", "series": 3, "reps": "10-12", "descanso": 60 }
+    ]
   },
-  "Martes": {
-    "ejercicio": "Dominadas/Jal\u00f3n",
-    "series": 4,
-    "reps": "6-10",
-    "descanso": "120"
+  "MARTES": {
+    "nombre": "Tirón Fuerza",
+    "ejercicios": [
+      { "ejercicio": "Dominadas", "series": 4, "reps": "6-8", "descanso": 120 },
+      { "ejercicio": "Remo con barra", "series": 4, "reps": "6-8", "descanso": 120 },
+      { "ejercicio": "Jalón al pecho", "series": 3, "reps": "8-10", "descanso": 90 },
+      { "ejercicio": "Curl bíceps barra", "series": 3, "reps": "8-10", "descanso": 60 }
+    ]
   },
-  "Mi\u00e9rcoles": {
-    "ejercicio": "Sentadilla",
-    "series": 4,
-    "reps": "6-8",
-    "descanso": "180"
+  "MIÉRCOLES": {
+    "nombre": "Pierna Fuerza",
+    "ejercicios": [
+      { "ejercicio": "Sentadilla", "series": 4, "reps": "6-8", "descanso": 180 },
+      { "ejercicio": "Peso muerto rumano", "series": 4, "reps": "6-8", "descanso": 150 },
+      { "ejercicio": "Prensa", "series": 3, "reps": "10-12", "descanso": 90 },
+      { "ejercicio": "Gemelos de pie", "series": 4, "reps": "12-15", "descanso": 60 }
+    ]
+  },
+  "JUEVES": {
+    "nombre": "Empuje Volumen",
+    "ejercicios": [
+      { "ejercicio": "Press inclinado mancuernas", "series": 4, "reps": "10-12", "descanso": 90 },
+      { "ejercicio": "Aperturas en polea", "series": 3, "reps": "12-15", "descanso": 60 },
+      { "ejercicio": "Elevaciones laterales", "series": 4, "reps": "12-15", "descanso": 60 },
+      { "ejercicio": "Press francés", "series": 3, "reps": "10-12", "descanso": 60 }
+    ]
+  },
+  "VIERNES": {
+    "nombre": "Tirón Volumen",
+    "ejercicios": [
+      { "ejercicio": "Remo en polea baja", "series": 4, "reps": "10-12", "descanso": 90 },
+      { "ejercicio": "Jalón agarre cerrado", "series": 4, "reps": "10-12", "descanso": 90 },
+      { "ejercicio": "Face pull", "series": 3, "reps": "15", "descanso": 60 },
+      { "ejercicio": "Curl martillo", "series": 3, "reps": "10-12", "descanso": 60 }
+    ]
+  },
+  "SÁBADO": {
+    "nombre": "Pierna Volumen",
+    "ejercicios": [
+      { "ejercicio": "Sentadilla búlgara", "series": 4, "reps": "10-12", "descanso": 90 },
+      { "ejercicio": "Extensión cuádriceps", "series": 4, "reps": "12-15", "descanso": 60 },
+      { "ejercicio": "Curl femoral", "series": 4, "reps": "12-15", "descanso": 60 },
+      { "ejercicio": "Gemelos sentado", "series": 4, "reps": "15-20", "descanso": 45 }
+    ]
   }
 }

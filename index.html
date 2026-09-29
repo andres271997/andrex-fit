@@ -2,16 +2,22 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>ANDREX FIT</title>
 <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ANDREX FIT">
+<meta name="theme-color" content="#00d26a">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="app">
-<h1>💪 ANDREX FIT</h1>
-<p>Selecciona tu entrenamiento</p>
-<div id="days"></div>
+  <h1>💪 ANDREX FIT</h1>
+  <p id="subtitulo">Selecciona tu entrenamiento</p>
+  <div id="days"></div>
+  <div id="detalle" class="oculto"></div>
 </div>
 <script src="app.js"></script>
 </body>
